@@ -1,3 +1,5 @@
+import java.util.Properties
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
@@ -9,12 +11,24 @@ android {
     namespace = "com.example.barcateam"
     compileSdk = 34
 
+    val secretsProperties = Properties()
+    val secretsFile = rootProject.file("secret.properties")
+    if (secretsFile.exists()) {
+        secretsProperties.load(secretsFile.inputStream())
+    } else {
+        throw GradleException("Where's the secret properties file?")
+    }
+
+
     defaultConfig {
         applicationId = "com.example.barcateam"
         minSdk = 24
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"
+
+        buildConfigField("String", "FOOTBALL_API_KEY", "${secretsProperties["FOOTBALL_API_KEY"]}")
+        buildConfigField("String", "FOOTBALL_HOST_URL", "${secretsProperties["FOOTBALL_HOST_URL"]}")
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
@@ -40,6 +54,7 @@ android {
     }
     buildFeatures {
         compose = true
+        buildConfig = true
     }
     composeOptions {
         kotlinCompilerExtensionVersion = "1.5.1"
@@ -53,8 +68,14 @@ android {
 
 dependencies {
 
+    // hilt
     implementation(libs.hilt.android)
     kapt(libs.hilt.compiler)
+
+    // network
+    implementation(libs.retrofit)
+    implementation(libs.gson)
+    implementation(libs.gson.converter)
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
