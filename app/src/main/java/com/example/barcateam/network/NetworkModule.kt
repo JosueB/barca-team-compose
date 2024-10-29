@@ -2,16 +2,17 @@ package com.example.barcateam.network
 
 import com.example.barcateam.BuildConfig
 import com.example.barcateam.network.api.FootballAPI
-import com.google.gson.Gson
-import com.google.gson.GsonBuilder
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import kotlinx.serialization.json.Json
 import okhttp3.Interceptor
+import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
+import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
+import retrofit2.converter.kotlinx.serialization.asConverterFactory
 import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
 
@@ -21,12 +22,13 @@ object NetworkModule {
 
     @Provides
     @Singleton
-    fun getGson(): Gson {
-        return GsonBuilder().serializeNulls().setLenient().create()
+    fun json(): Json {
+        return Json {
+            ignoreUnknownKeys = true // Ignores unknown fields in JSON, if any
+        }
     }
 
     @Provides
-    @Singleton
     fun provideAPIKeyInterceptor(): Interceptor {
         return Interceptor {
             val request = it.request()
@@ -38,11 +40,17 @@ object NetworkModule {
     }
 
     @Provides
+    @Singleton
     fun provideOkHttpClient(
         interceptor: Interceptor
     ): OkHttpClient {
         return OkHttpClient.Builder()
             .addInterceptor(interceptor)
+            .addInterceptor(
+                HttpLoggingInterceptor().apply {
+                    level = HttpLoggingInterceptor.Level.BODY
+                }
+            )
             .connectTimeout(30, TimeUnit.SECONDS)
             .readTimeout(30, TimeUnit.SECONDS)
             .writeTimeout(50, TimeUnit.SECONDS)
@@ -53,11 +61,13 @@ object NetworkModule {
     @Singleton
     fun getRetrofit(
         client: OkHttpClient,
-        gson: Gson
+        json: Json
     ): Retrofit {
         return Retrofit.Builder()
             .baseUrl(BuildConfig.FOOTBALL_HOST_URL)
-            .addConverterFactory(GsonConverterFactory.create(gson))
+            .addConverterFactory(
+                json.asConverterFactory(
+                    "application/json; charset=UTF8".toMediaType()))
             .client(client)
             .build()
     }

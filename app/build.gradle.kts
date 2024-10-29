@@ -4,7 +4,9 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.dagger.hilt)
+    alias(libs.plugins.kotlinx.serializer)
     id("kotlin-kapt")
+
 }
 
 android {
@@ -74,8 +76,11 @@ dependencies {
 
     // network
     implementation(libs.retrofit)
-    implementation(libs.gson)
-    implementation(libs.gson.converter)
+    implementation(libs.okhttp.client)
+    implementation(libs.okhttp.loggingInterceptor)
+    implementation(libs.retrofit.converter.kotlinx)
+    implementation(libs.kotlinx.serialization.json)
+    implementation(libs.kotlinx.serialization.core)
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
