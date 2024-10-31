@@ -1,4 +1,4 @@
-package com.example.barcateam.network
+package com.example.barcateam.di
 
 import com.example.barcateam.BuildConfig
 import com.example.barcateam.network.api.FootballAPI

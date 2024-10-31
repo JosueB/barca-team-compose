@@ -42,6 +42,8 @@ fun BarcaPlayersScreen(
             }
             is PlayersUIState.Loading -> {
             }
+            is PlayersUIState.Error -> {
+            }
         }
     }
 }

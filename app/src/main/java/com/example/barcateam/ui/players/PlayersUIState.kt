@@ -11,6 +11,8 @@ sealed interface PlayersUIState {
      */
     data object Loading : PlayersUIState
 
+    data class Error(val ex: Exception) : PlayersUIState
+
     /**
      * The players data
      */

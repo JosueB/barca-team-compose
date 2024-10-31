@@ -2,7 +2,8 @@ package com.example.barcateam
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.barcateam.network.api.FootballAPI
+import com.example.barcateam.network.NetworkResult
+import com.example.barcateam.network.repos.FootballRepository
 import com.example.barcateam.ui.players.PlayersUIState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -15,7 +16,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class PlayersViewModel @Inject constructor(
-    private val footballAPI: FootballAPI
+    private val footballRepository: FootballRepository
 ) : ViewModel() {
 
     // Expose screen UI state
@@ -28,15 +29,10 @@ class PlayersViewModel @Inject constructor(
 
     fun run() {
         viewModelScope.launch(Dispatchers.IO) {
-            val response = footballAPI.getBarcaPlayers()
-            if (response.isSuccessful) {
-
-                val list = response.body()?.response?.map {
-                    it.player
-                }.orEmpty()
-
+            val response = footballRepository.getBarcaPlayers()
+            if (response is NetworkResult.Success) {
                 _uiState.update {
-                    PlayersUIState.Success(list)
+                    PlayersUIState.Success(response.data.response.map { it.player })
                 }
             }
         }
