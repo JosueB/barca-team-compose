@@ -3,21 +3,20 @@ agp = "8.6.1"
 coilCompose = "3.0.0-rc02"
 hiltAndroid = "2.51.1"
 hiltNavigationCompose = "1.2.0"
-kotlin = "1.9.0"
+kotlin = "1.9.24"
 coreKtx = "1.13.1"
 junit = "4.13.2"
 junitVersion = "1.2.1"
 espressoCore = "3.6.1"
 lifecycleRuntimeKtx = "2.8.6"
 activityCompose = "1.9.3"
-composeBom = "2024.04.01"
-materialIconsCore = "1.7.4"
+composeBom = "2024.10.01"
+materialIconsCore = "1.7.5"
 
 navigationCompose = "2.8.3"
 retrofit = "2.11.0"
 okhttp = "4.12.0"
 kotlinxSerialization= "1.6.0"
-
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
