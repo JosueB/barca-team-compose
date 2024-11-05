@@ -3,11 +3,14 @@ package com.example.barcateam.ui.navigation
 import androidx.compose.animation.ExperimentalSharedTransitionApi
 import androidx.compose.animation.SharedTransitionLayout
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.toRoute
 import com.example.barcateam.PlayersViewModel
@@ -31,7 +34,8 @@ object PlayersListRoute
 @Composable
 fun BarcelonaAppNavHost(
     modifier: Modifier = Modifier,
-    navController: NavHostController = rememberNavController()
+    navController: NavHostController = rememberNavController(),
+    onScreenChanged: (showTopBar: Boolean) -> Unit
 ) {
 
     SharedTransitionLayout {
@@ -42,6 +46,10 @@ fun BarcelonaAppNavHost(
 
         ) {
             composable<PlayerRoute> {
+                // show BottomBar and TopBar
+                LaunchedEffect(Unit) {
+                    onScreenChanged(false)
+                }
                 val args = it.toRoute<PlayerRoute>()
                 PlayerProfileScreen(
                     name = args.name,
@@ -54,6 +62,9 @@ fun BarcelonaAppNavHost(
                 )
             }
             composable<PlayersListRoute> {
+                LaunchedEffect(Unit) {
+                    onScreenChanged(true)
+                }
                 val viewModel = hiltViewModel<PlayersViewModel>()
                 BarcaPlayersScreen(
                     playersViewModel = viewModel,

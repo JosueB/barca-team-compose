@@ -10,6 +10,8 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.stringResource
@@ -21,23 +23,32 @@ import com.example.barcateam.ui.navigation.BarcelonaAppNavHost
 @Composable
 fun BarcaApp() {
 
+    val topBarState = rememberSaveable { (mutableStateOf(true)) }
+
     // Toolbar visibility state
     val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior(rememberTopAppBarState())
 
     Scaffold(
         modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
-        topBar = { BarcelonaToolBar(scrollBehavior) }
+        topBar = {
+            if (topBarState.value) {
+                BarcelonaToolBar(scrollBehavior)
+            }
+        }
     ) { innerPadding ->
 
         BarcelonaAppNavHost(
             modifier = Modifier.padding(innerPadding)
-        )
+        ) {
+            topBarState.value = it
+        }
     }
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun BarcelonaToolBar(scrollBehavior: TopAppBarScrollBehavior) {
+
     CenterAlignedTopAppBar(
         colors = TopAppBarDefaults.topAppBarColors(
             containerColor = MaterialTheme.colorScheme.primaryContainer,
