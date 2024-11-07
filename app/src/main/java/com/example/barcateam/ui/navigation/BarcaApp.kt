@@ -110,7 +110,7 @@ fun BarcelonaToolBar(scrollBehavior: TopAppBarScrollBehavior) {
     CenterAlignedTopAppBar(
         colors = TopAppBarDefaults.topAppBarColors(
             containerColor = MaterialTheme.colorScheme.primaryContainer,
-            titleContentColor = MaterialTheme.colorScheme.primary,
+            titleContentColor = MaterialTheme.colorScheme.onPrimaryContainer,
         ),
         title = {
             Text(
