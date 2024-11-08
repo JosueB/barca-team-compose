@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">Barca Team</string>
     <string name="tool_bar_name">Barça Team</string>
+    <string name="ic_barcelona">Barcelona</string>
 </resources>

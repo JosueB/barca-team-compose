@@ -25,6 +25,7 @@ private val LightColorScheme = lightColorScheme(
     tertiary = Pink40,
     primaryContainer = BlueBarca,     // Background color for TopAppBar
     onPrimaryContainer = Color.White, // Title color for TopAppBar
+    surfaceContainer = BlueBarca
 
 
     /* Other default colors to override
