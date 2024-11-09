@@ -11,9 +11,12 @@ import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.barcateam.PlayersViewModel
+import com.example.barcateam.R
+import com.example.barcateam.ui.generic.GenericMessageScreen
 
 @OptIn(ExperimentalSharedTransitionApi::class)
 @Composable
@@ -57,6 +60,13 @@ fun BarcaPlayersScreen(
             }
 
             is PlayersUIState.Error -> {
+                item {
+                    GenericMessageScreen(
+                        imageResId = android.R.drawable.ic_dialog_alert, // Replace with your drawable resource
+                        title = stringResource(R.string.lbl_error),
+                        description = stringResource(R.string.lbl_error_description),
+                    ) { }
+                }
             }
         }
     }
