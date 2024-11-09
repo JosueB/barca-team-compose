@@ -45,7 +45,6 @@ object PlayersListRoute
 @Composable
 fun BarcaApp() {
 
-    val topBarState = rememberSaveable { (mutableStateOf(true)) }
     val navController = rememberNavController()
 
     // Toolbar visibility state
@@ -53,21 +52,17 @@ fun BarcaApp() {
 
     Scaffold(
         modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
-        topBar = {
-            if (topBarState.value) {
-                BarcelonaToolBar(scrollBehavior)
-            }
-        }
+        topBar = { BarcelonaToolBar(scrollBehavior) }
     ) { innerPadding ->
 
         SharedTransitionLayout {
             NavHost(
                 navController = navController,
-                startDestination = PlayersListRoute
+                startDestination = PlayersListRoute,
+                modifier = Modifier.padding(innerPadding),
 
             ) {
                 composable<PlayerRoute> {
-                    topBarState.value = false
                     val args = it.toRoute<PlayerRoute>()
                     PlayerProfileScreen(
                         name = args.name,
@@ -80,10 +75,8 @@ fun BarcaApp() {
                     )
                 }
                 composable<PlayersListRoute> {
-                    topBarState.value = true
                     val viewModel = hiltViewModel<PlayersViewModel>()
                     BarcaPlayersScreen(
-                        modifier = Modifier.padding(innerPadding),
                         playersViewModel = viewModel,
                         sharedTransitionScope = this@SharedTransitionLayout,
                         animatedContentScope = this@composable
