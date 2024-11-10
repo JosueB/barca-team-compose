@@ -12,8 +12,6 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.painterResource
@@ -23,19 +21,16 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.toRoute
-import com.example.barcateam.PlayersViewModel
 import com.example.barcateam.R
 import com.example.barcateam.ui.playerprofile.PlayerProfileScreen
-import com.example.barcateam.ui.players.BarcaPlayersScreen
+import com.example.barcateam.ui.players.BarcaPlayersRoute
 import kotlinx.serialization.Serializable
 
 @Serializable
 data class PlayerRoute(
     val name: String,
-    val age: Int,
-    val nationality: String,
     val urlPhoto: String,
-    val playerId: Int
+    val playerId: Long
 )
 
 @Serializable
@@ -66,8 +61,6 @@ fun BarcaApp() {
                     val args = it.toRoute<PlayerRoute>()
                     PlayerProfileScreen(
                         name = args.name,
-                        age = args.age,
-                        nationality = args.nationality,
                         urlPhoto = args.urlPhoto,
                         playerId = args.playerId,
                         sharedTransitionScope = this@SharedTransitionLayout,
@@ -75,17 +68,14 @@ fun BarcaApp() {
                     )
                 }
                 composable<PlayersListRoute> {
-                    val viewModel = hiltViewModel<PlayersViewModel>()
-                    BarcaPlayersScreen(
-                        playersViewModel = viewModel,
+                    BarcaPlayersRoute(
+                        playersViewModel = hiltViewModel(),
                         sharedTransitionScope = this@SharedTransitionLayout,
                         animatedContentScope = this@composable
-                    ) { name, age, nationality, urlPhoto, playerId ->
+                    ) { name, urlPhoto, playerId ->
                         navController.navigate(
                             route = PlayerRoute(
                                 name,
-                                age,
-                                nationality,
                                 urlPhoto,
                                 playerId
                             )

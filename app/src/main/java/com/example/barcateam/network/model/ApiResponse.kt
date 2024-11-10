@@ -32,7 +32,7 @@ data class PlayerResponse(
 
 @Serializable
 data class Player(
-    @SerialName("id") val id: Int,
+    @SerialName("id") val id: Long,
     @SerialName("name") val name: String,
     @SerialName("firstname") val firstname: String,
     @SerialName("lastname") val lastname: String,

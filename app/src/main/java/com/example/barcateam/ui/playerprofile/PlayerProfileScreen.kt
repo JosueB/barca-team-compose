@@ -17,10 +17,8 @@ import coil3.compose.AsyncImage
 @Composable
 fun PlayerProfileScreen(
     modifier: Modifier = Modifier,
-    playerId: Int,
+    playerId: Long,
     name: String,
-    age: Int,
-    nationality: String,
     urlPhoto: String,
     sharedTransitionScope: SharedTransitionScope,
     animatedContentScope: AnimatedContentScope

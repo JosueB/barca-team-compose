@@ -36,7 +36,7 @@ fun PlayerCard(
     player: Player,
     sharedTransitionScope: SharedTransitionScope,
     animatedContentScope: AnimatedContentScope,
-    onCardClicked: (name: String, age: Int, nationality: String, urlPhoto: String, playerId: Int) -> Unit
+    onCardClicked: (name: String,  urlPhoto: String, playerId: Long) -> Unit
 ) {
     OutlinedCard(
         colors = CardDefaults.cardColors(
@@ -46,7 +46,7 @@ fun PlayerCard(
         modifier = Modifier
             .size(width = 240.dp, height = 100.dp)
             .clickable {
-                onCardClicked(player.name, player.age, player.nationality, player.photo, player.id)
+                onCardClicked(player.name, player.photo, player.id)
             }
     ) {
         with(sharedTransitionScope) {

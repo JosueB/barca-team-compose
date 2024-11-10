@@ -1,3 +1,5 @@
+@file:OptIn(ExperimentalSharedTransitionApi::class)
+
 package com.example.barcateam.ui.players
 
 import androidx.compose.animation.AnimatedContentScope
@@ -20,15 +22,35 @@ import com.example.barcateam.ui.generic.GenericMessageScreen
 
 @OptIn(ExperimentalSharedTransitionApi::class)
 @Composable
-fun BarcaPlayersScreen(
+fun BarcaPlayersRoute(
     modifier: Modifier = Modifier,
     playersViewModel: PlayersViewModel,
     sharedTransitionScope: SharedTransitionScope,
     animatedContentScope: AnimatedContentScope,
-    onCardClicked: (name: String, age: Int, nationality: String, urlPhoto: String, playerId: Int) -> Unit
+    onCardClicked: (name: String, urlPhoto: String, playerId: Long) -> Unit
 ) {
 
     val playersUIState by playersViewModel.uiState.collectAsStateWithLifecycle()
+
+    BarcaPlayersScreen(
+        modifier = modifier,
+        playersUIState = playersUIState,
+        sharedTransitionScope = sharedTransitionScope,
+        animatedContentScope = animatedContentScope,
+        onCardClicked = onCardClicked
+    )
+}
+
+
+@OptIn(ExperimentalSharedTransitionApi::class)
+@Composable
+fun BarcaPlayersScreen(
+    modifier: Modifier = Modifier,
+    playersUIState: PlayersUIState,
+    sharedTransitionScope: SharedTransitionScope,
+    animatedContentScope: AnimatedContentScope,
+    onCardClicked: (name: String, urlPhoto: String, playerId: Long) -> Unit
+) {
 
     LazyVerticalGrid(
         columns = GridCells.Fixed(2),
@@ -50,8 +72,8 @@ fun BarcaPlayersScreen(
                         player,
                         sharedTransitionScope,
                         animatedContentScope
-                    ) { name, age, nationality, urlPhoto, playerId ->
-                        onCardClicked(name, age, nationality, urlPhoto, playerId)
+                    ) { name, urlPhoto, playerId ->
+                        onCardClicked(name, urlPhoto, playerId)
                     }
                 }
             }
@@ -65,7 +87,9 @@ fun BarcaPlayersScreen(
                         imageResId = android.R.drawable.ic_dialog_alert, // Replace with your drawable resource
                         title = stringResource(R.string.lbl_error),
                         description = stringResource(R.string.lbl_error_description),
-                    ) { }
+                    ) {
+
+                    }
                 }
             }
         }
