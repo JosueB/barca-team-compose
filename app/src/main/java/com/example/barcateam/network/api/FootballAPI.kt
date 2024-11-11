@@ -14,4 +14,11 @@ interface FootballAPI {
         @Query("team") team: String = NetworkConstants.BARCELONA_ID,
         @Query("season") season: String = NetworkConstants.SEASON_2022
     ): Response<ApiResponse<PlayerResponse>>
+
+    @GET("/players")
+    suspend fun getPlayerStats(
+        @Query("id") playerId: Long,
+        @Query("team") team: String = NetworkConstants.BARCELONA_ID,
+        @Query("season") season: String = NetworkConstants.SEASON_2022
+    ): Response<ApiResponse<PlayerResponse>>
 }

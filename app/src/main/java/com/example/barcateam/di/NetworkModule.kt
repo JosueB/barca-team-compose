@@ -6,6 +6,7 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.json.Json
 import okhttp3.Interceptor
 import okhttp3.MediaType.Companion.toMediaType
@@ -20,11 +21,13 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 object NetworkModule {
 
+    @OptIn(ExperimentalSerializationApi::class)
     @Provides
     @Singleton
     fun json(): Json {
         return Json {
             ignoreUnknownKeys = true // Ignores unknown fields in JSON, if any
+            explicitNulls = false
         }
     }
 

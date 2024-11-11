@@ -8,4 +8,5 @@ interface FootballRepository {
 
     suspend fun getBarcaPlayers(): NetworkResult<ApiResponse<PlayerResponse>>
 
+    suspend fun getStatsForPlayer(playerId: Long): NetworkResult<ApiResponse<PlayerResponse>>
 }

@@ -16,21 +16,19 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.toRoute
 import com.example.barcateam.R
-import com.example.barcateam.ui.playerprofile.PlayerProfileScreen
+import com.example.barcateam.ui.playerprofile.PlayerProfileRoute
 import com.example.barcateam.ui.players.BarcaPlayersRoute
 import kotlinx.serialization.Serializable
 
 @Serializable
 data class PlayerRoute(
-    val name: String,
-    val urlPhoto: String,
-    val playerId: Long
+    val playerId: Long,
+    val photoUrl: String
 )
 
 @Serializable
@@ -54,30 +52,27 @@ fun BarcaApp() {
             NavHost(
                 navController = navController,
                 startDestination = PlayersListRoute,
-                modifier = Modifier.padding(innerPadding),
-
+                modifier = Modifier.padding(innerPadding)
             ) {
                 composable<PlayerRoute> {
                     val args = it.toRoute<PlayerRoute>()
-                    PlayerProfileScreen(
-                        name = args.name,
-                        urlPhoto = args.urlPhoto,
+                    PlayerProfileRoute(
                         playerId = args.playerId,
+                        photoUrl = args.photoUrl,
                         sharedTransitionScope = this@SharedTransitionLayout,
                         animatedContentScope = this@composable
                     )
                 }
                 composable<PlayersListRoute> {
                     BarcaPlayersRoute(
-                        playersViewModel = hiltViewModel(),
                         sharedTransitionScope = this@SharedTransitionLayout,
                         animatedContentScope = this@composable
-                    ) { name, urlPhoto, playerId ->
+                    ) { playerId, photoUrl ->
+                        println("passing this args: ${playerId}")
                         navController.navigate(
                             route = PlayerRoute(
-                                name,
-                                urlPhoto,
-                                playerId
+                                playerId,
+                                photoUrl
                             )
                         )
                     }

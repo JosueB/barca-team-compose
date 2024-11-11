@@ -15,6 +15,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.barcateam.PlayersViewModel
 import com.example.barcateam.R
@@ -24,13 +25,13 @@ import com.example.barcateam.ui.generic.GenericMessageScreen
 @Composable
 fun BarcaPlayersRoute(
     modifier: Modifier = Modifier,
-    playersViewModel: PlayersViewModel,
+    playersViewModel: PlayersViewModel = hiltViewModel(),
     sharedTransitionScope: SharedTransitionScope,
     animatedContentScope: AnimatedContentScope,
-    onCardClicked: (name: String, urlPhoto: String, playerId: Long) -> Unit
+    onCardClicked: (playerId: Long, photoUrl: String) -> Unit
 ) {
 
-    val playersUIState by playersViewModel.uiState.collectAsStateWithLifecycle()
+    val playersUIState by playersViewModel.playerStatsUIState.collectAsStateWithLifecycle()
 
     BarcaPlayersScreen(
         modifier = modifier,
@@ -49,7 +50,7 @@ fun BarcaPlayersScreen(
     playersUIState: PlayersUIState,
     sharedTransitionScope: SharedTransitionScope,
     animatedContentScope: AnimatedContentScope,
-    onCardClicked: (name: String, urlPhoto: String, playerId: Long) -> Unit
+    onCardClicked: (playerId: Long, photoUrl: String) -> Unit
 ) {
 
     LazyVerticalGrid(
@@ -72,8 +73,8 @@ fun BarcaPlayersScreen(
                         player,
                         sharedTransitionScope,
                         animatedContentScope
-                    ) { name, urlPhoto, playerId ->
-                        onCardClicked(name, urlPhoto, playerId)
+                    ) { playerId, photoUrl ->
+                        onCardClicked(playerId, photoUrl)
                     }
                 }
             }

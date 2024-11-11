@@ -14,4 +14,8 @@ class FootballRepositoryImpl @Inject constructor(
     override suspend fun getBarcaPlayers(): NetworkResult<ApiResponse<PlayerResponse>> {
         return safeApiResult { apiService.getBarcaPlayers() }
     }
+
+    override suspend fun getStatsForPlayer(playerId: Long): NetworkResult<ApiResponse<PlayerResponse>> {
+        return safeApiResult { apiService.getPlayerStats(playerId) }
+    }
 }
