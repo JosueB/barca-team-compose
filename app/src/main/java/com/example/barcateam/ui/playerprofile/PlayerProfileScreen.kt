@@ -12,9 +12,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil3.compose.AsyncImage
+import com.example.barcateam.R
+import com.example.barcateam.ui.generic.GenericMessageScreen
 
 @OptIn(ExperimentalSharedTransitionApi::class)
 @Composable
@@ -75,13 +78,14 @@ fun PlayerProfileScreen(
                         animatedVisibilityScope = animatedContentScope
                     )
             )
-            println(state)
             when (state) {
                 is PlayerStatsUiState.Success -> {
                     Text(
                         text = "Goals: ${state.statistics?.goals?.total ?: 0}",
                     )
-
+                    Text(
+                        text = "Shots: ${state.statistics?.shots?.total ?: 0}",
+                    )
                 }
 
                 is PlayerStatsUiState.Loading -> {
@@ -90,7 +94,13 @@ fun PlayerProfileScreen(
                 }
 
                 is PlayerStatsUiState.Error -> {
-                    Text("Error")
+                    GenericMessageScreen(
+                        imageResId = android.R.drawable.ic_dialog_alert, // Replace with your drawable resource
+                        title = stringResource(R.string.lbl_error),
+                        description = stringResource(R.string.lbl_error_description),
+                    ) {
+                        // TODO: handle retries, notify viewmodel
+                    }
                 }
             }
         }
