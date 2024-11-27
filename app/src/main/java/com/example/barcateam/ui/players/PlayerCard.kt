@@ -5,10 +5,8 @@ import androidx.compose.animation.ExperimentalSharedTransitionApi
 import androidx.compose.animation.SharedTransitionScope
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
@@ -50,33 +48,26 @@ fun PlayerCard(
             }
     ) {
         with(sharedTransitionScope) {
-            Row {
-                Column(
-                    verticalArrangement = Arrangement.Center,
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .weight(1F)
-                ) {
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                modifier = Modifier.padding(8.dp)
+            ) {
 
-                    AsyncImage(
-                        model = player.photo,
-                        contentDescription = "Example Image",
-                        contentScale = ContentScale.Crop,
-                        modifier = Modifier
-                            .sharedElement(
-                                sharedTransitionScope.rememberSharedContentState(key = "image-${player.id}"),
-                                animatedVisibilityScope = animatedContentScope
-                            )
-                            .size(70.dp)
-                            .clip(CircleShape)
-                    )
-                }
+                AsyncImage(
+                    model = player.photo,
+                    contentDescription = "Example Image",
+                    contentScale = ContentScale.Crop,
+                    modifier = Modifier
+                        .sharedElement(
+                            sharedTransitionScope.rememberSharedContentState(key = "image-${player.id}"),
+                            animatedVisibilityScope = animatedContentScope
+                        )
+                        .size(70.dp)
+                        .clip(CircleShape)
+                )
 
                 Column(
-                    modifier = Modifier
-                        .padding(4.dp)
-                        .weight(1F),
+                    modifier = Modifier.padding(vertical = 8.dp, horizontal = 16.dp)
                 ) {
                     Text(
                         text = player.name,
