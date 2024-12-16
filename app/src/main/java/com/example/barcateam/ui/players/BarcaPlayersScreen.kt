@@ -62,23 +62,35 @@ fun BarcaPlayersScreen(
 
         when (val state = playersUIState) {
             is PlayersUIState.Success -> {
-                items(
-                    items = state.playersFeed,
-                    key = { player ->
-                        player.id
+                if (state.playersFeed.isEmpty()) {
+                    item {
+                        GenericMessageScreen(
+                            imageResId = android.R.drawable.ic_dialog_alert, // Replace with your drawable resource
+                            title = stringResource(R.string.lbl_empty)
+                        )
                     }
-                ) { player ->
-                    PlayerCard(
-                        player,
-                        sharedTransitionScope,
-                        animatedContentScope
-                    ) { playerId, photoUrl ->
-                        onCardClicked(playerId, photoUrl)
+                } else {
+                    items(
+                        items = state.playersFeed,
+                        key = { player ->
+                            player.id
+                        }
+                    ) { player ->
+                        PlayerCard(
+                            player,
+                            sharedTransitionScope,
+                            animatedContentScope
+                        ) { playerId, photoUrl ->
+                            onCardClicked(playerId, photoUrl)
+                        }
                     }
                 }
             }
 
             is PlayersUIState.Loading -> {
+                items(7) {
+                    ShimmerPlayerCard()
+                }
             }
 
             is PlayersUIState.Error -> {

@@ -2,6 +2,8 @@
     <string name="app_name">Barca Team</string>
     <string name="tool_bar_name">Barça Team</string>
     <string name="ic_barcelona">Barcelona</string>
+    <string name="lbl_empty">There are no players here</string>
+
     <string name="lbl_error">Oops! Something Went Wrong</string>
     <string name="lbl_error_description">We encountered an unexpected error. Please try again.</string>
 </resources>

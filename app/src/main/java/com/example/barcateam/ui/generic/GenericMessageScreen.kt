@@ -18,8 +18,8 @@ import androidx.compose.ui.unit.sp
 fun GenericMessageScreen(
     imageResId: Int,
     title: String,
-    description: String,
-    onRetry: () -> Unit
+    description: String? = null,
+    onRetry: (() -> Unit)? = null
 ) {
     Column(
         modifier = Modifier
@@ -48,16 +48,19 @@ fun GenericMessageScreen(
         )
 
         // Error Description
-        Text(
-            text = description,
-            fontSize = 16.sp,
-            textAlign = TextAlign.Center,
-            modifier = Modifier.padding(bottom = 16.dp)
-        )
-
-        // Retry Button
-        Button(onClick = onRetry) {
-            Text(text = "Retry")
+        if (!description.isNullOrEmpty()) {
+            Text(
+                text = description,
+                fontSize = 16.sp,
+                textAlign = TextAlign.Center,
+                modifier = Modifier.padding(bottom = 16.dp)
+            )
+        }
+        onRetry?.let {
+            // Retry Button
+            Button(onClick = { it.invoke() }) {
+                Text(text = "Retry")
+            }
         }
     }
 }
