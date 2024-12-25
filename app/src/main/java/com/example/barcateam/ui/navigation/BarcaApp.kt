@@ -68,7 +68,6 @@ fun BarcaApp() {
                         sharedTransitionScope = this@SharedTransitionLayout,
                         animatedContentScope = this@composable
                     ) { playerId, photoUrl ->
-                        println("passing this args: ${playerId}")
                         navController.navigate(
                             route = PlayerRoute(
                                 playerId,

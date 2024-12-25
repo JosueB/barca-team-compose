@@ -98,28 +98,3 @@ fun PlayerCard(
         }
     }
 }
-
-@Preview
-@Composable
-fun PlayerCardPreview() {
-//    PlayerCard(
-//        Player(
-//            id = 6308,
-//            name = "Leo Messi",
-//            firstname = "Rickie",
-//            lastname = "Randon",
-//            age = 7784,
-//            birth = Birth(
-//                date = "",
-//                place = null,
-//                country = "",
-//            ),
-//            nationality = "Obinna",
-//            height = null,
-//            weight = null,
-//            injured = true,
-//            photo = "Antwanette"
-//        ),
-//        SharedTransitionScope
-//    ) {a, b, c, d -> }
-}

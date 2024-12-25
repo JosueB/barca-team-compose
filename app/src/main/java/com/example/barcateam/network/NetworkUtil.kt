@@ -3,6 +3,10 @@ package com.example.barcateam.network
 import retrofit2.HttpException
 import retrofit2.Response
 
+/**
+ * Method that wraps most call and process them from a regular retrofit response
+ * to a [NetworkResult] type
+ */
 suspend fun <T : Any> safeApiResult(call: suspend () -> Response<T>): NetworkResult<T> {
     return try {
         val response = call.invoke()

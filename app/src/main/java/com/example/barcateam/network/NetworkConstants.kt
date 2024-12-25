@@ -1,5 +1,8 @@
 package com.example.barcateam.network
 
+/**
+ * Keeps tracks of all network constants used throughout the app
+ */
 object NetworkConstants {
 
     const val BARCELONA_ID = "529"
