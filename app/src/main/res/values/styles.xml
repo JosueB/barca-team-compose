@@ -7,7 +7,7 @@
         <item name="windowSplashScreenBackground">@color/barca_blue</item>
         <!-- Use windowSplashScreenAnimatedIcon to add a drawable or an animated
              drawable. -->
-        <item name="windowSplashScreenAnimatedIcon">@drawable/ic_barcelona</item>
+        <item name="windowSplashScreenAnimatedIcon">@drawable/fc_barcelona_launch</item>
         <!-- Set the theme of the Activity that follows your splash screen. -->
         <item name="postSplashScreenTheme">@style/Theme.BarcaTeam</item>
     </style>
