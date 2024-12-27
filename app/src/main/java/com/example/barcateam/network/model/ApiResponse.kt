@@ -84,7 +84,7 @@ data class League(
 
 @Serializable
 data class Games(
-    @SerialName("appearances") val appearances: Int?,
+    @SerialName("appearences") val appearances: Int?,
     @SerialName("lineups") val lineups: Int?,
     @SerialName("minutes") val minutes: Int?,
     @SerialName("number") val number: Int? = null,

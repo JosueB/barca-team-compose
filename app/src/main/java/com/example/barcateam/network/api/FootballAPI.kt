@@ -19,6 +19,7 @@ interface FootballAPI {
     suspend fun getPlayerStats(
         @Query("id") playerId: Long,
         @Query("team") team: String = NetworkConstants.BARCELONA_ID,
-        @Query("season") season: String = NetworkConstants.SEASON_2022
+        @Query("season") season: String = NetworkConstants.SEASON_2022,
+        @Query("league") league: String = NetworkConstants.LA_LIGA_ID,
     ): Response<ApiResponse<PlayerResponse>>
 }

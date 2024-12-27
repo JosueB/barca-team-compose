@@ -38,13 +38,17 @@ class PlayerStatsDetailViewModel @Inject constructor(
     ): Flow<PlayerStatsUiState> {
         return flow {
             val response = footballRepository.getStatsForPlayer(playerId = playerId)
-            if (response is NetworkResult.Success && response.data.response.isNotEmpty()) {
-                emit(
-                    PlayerStatsUiState.Success(
-                        response.data.response.first().player,
-                        response.data.response.firstOrNull()?.statistics?.firstOrNull()
+            if (response is NetworkResult.Success) {
+                if (response.data.response.isNotEmpty()) {
+                    emit(
+                        PlayerStatsUiState.Success(
+                            response.data.response.first().player,
+                            response.data.response.firstOrNull()?.statistics?.firstOrNull()
+                        )
                     )
-                )
+                } else {
+                    emit(PlayerStatsUiState.Empty)
+                }
             } else {
                 emit(PlayerStatsUiState.Error(Exception("getting data error")))
             }

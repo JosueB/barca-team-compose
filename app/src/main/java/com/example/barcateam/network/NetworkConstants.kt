@@ -7,4 +7,5 @@ object NetworkConstants {
 
     const val BARCELONA_ID = "529"
     const val SEASON_2022 = "2022"
+    const val LA_LIGA_ID = "140"
 }

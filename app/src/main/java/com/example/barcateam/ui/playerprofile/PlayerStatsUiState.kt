@@ -14,6 +14,8 @@ sealed interface PlayerStatsUiState {
 
     data class Error(val ex: Exception) : PlayerStatsUiState
 
+    data object Empty : PlayerStatsUiState
+
     /**
      * The players data
      */

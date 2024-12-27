@@ -4,15 +4,19 @@ import androidx.compose.animation.AnimatedContentScope
 import androidx.compose.animation.ExperimentalSharedTransitionApi
 import androidx.compose.animation.SharedTransitionScope
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil3.compose.AsyncImage
@@ -58,7 +62,7 @@ fun PlayerProfileScreen(
 
             AsyncImage(
                 model = currentPhotoUrl,
-                contentDescription = "Example Image",
+                contentDescription = stringResource(R.string.image_of_player),
                 contentScale = ContentScale.Crop,
                 modifier = Modifier
                     .fillMaxWidth()
@@ -68,29 +72,31 @@ fun PlayerProfileScreen(
                     )
                     .aspectRatio(1f)
             )
-
-            Text(
-                text = "hello ${(state as? PlayerStatsUiState.Success)?.player?.name.orEmpty()}",
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .sharedElement(
-                        sharedTransitionScope.rememberSharedContentState(key = "text-${playerId}"),
-                        animatedVisibilityScope = animatedContentScope
-                    )
-            )
             when (state) {
                 is PlayerStatsUiState.Success -> {
-                    Text(
-                        text = "Goals: ${state.statistics?.goals?.total ?: 0}",
-                    )
-                    Text(
-                        text = "Shots: ${state.statistics?.shots?.total ?: 0}",
-                    )
+                    PlayerDetailStats(state.player, state.statistics)
                 }
 
                 is PlayerStatsUiState.Loading -> {
-                    Text("loading")
+                    Spacer(modifier = Modifier.weight(1f))
+                    Text(
+                        text = stringResource(R.string.loading),
+                        style = MaterialTheme.typography.bodyMedium,
+                        fontWeight = FontWeight.Bold,
+                        modifier = Modifier.align(Alignment.CenterHorizontally)
+                    )
+                    Spacer(modifier = Modifier.weight(1f))
+                }
 
+                is PlayerStatsUiState.Empty -> {
+                    Spacer(modifier = Modifier.weight(1f))
+                    Text(
+                        text = stringResource(R.string.no_info_player),
+                        style = MaterialTheme.typography.bodyMedium,
+                        fontWeight = FontWeight.Bold,
+                        modifier = Modifier.align(Alignment.CenterHorizontally)
+                    )
+                    Spacer(modifier = Modifier.weight(1f))
                 }
 
                 is PlayerStatsUiState.Error -> {
